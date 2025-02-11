@@ -1,13 +1,11 @@
 import Link from "next/link";
-
-import { LatestPost } from "~/app/_components/post";
 import { api, HydrateClient } from "~/trpc/server";
 import styles from "./index.module.css";
 
 export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
+  const hello = await api.workOrder.hello({ text: "from tRPC" });
+  const workOrders = await api.workOrder.get();
 
-  void api.post.getLatest.prefetch();
 
   return (
     <HydrateClient>
@@ -45,8 +43,11 @@ export default async function Home() {
               {hello ? hello.greeting : "Loading tRPC query..."}
             </p>
           </div>
-
-          <LatestPost />
+        </div>
+        <div>
+          {workOrders.map((workOrder) => (
+            <div key={workOrder.id}>{workOrder.nickName}</div>
+          ))}
         </div>
       </main>
     </HydrateClient>

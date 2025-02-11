@@ -18,6 +18,9 @@
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
+  "compilerOptions": {
+    "module": "CommonJS"
+  },
   "dependencies": {
     "@prisma/client": "^5.14.0",
     "@t3-oss/env-nextjs": "^0.10.1",
@@ -35,7 +38,7 @@
   },
   "devDependencies": {
     "@types/eslint": "^8.56.10",
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.13.1",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@typescript-eslint/eslint-plugin": "^8.1.0",
@@ -43,10 +46,14 @@
     "eslint": "^8.57.0",
     "eslint-config-next": "^15.0.1",
     "prisma": "^5.14.0",
-    "typescript": "^5.5.3"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.3"
   },
   "ct3aMetadata": {
     "initVersion": "7.38.1"
   },
-  "packageManager": "yarn@1.22.21"
+  "packageManager": "yarn@1.22.21",
+  "prisma": {
+    "seed": "ts-node --esm prisma/seed.ts"
+  }
 }
