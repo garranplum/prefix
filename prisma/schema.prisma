@@ -19,6 +19,7 @@ model WorkOrder {
     updatedAt DateTime @updatedAt
     customerId Int
     customer Customer @relation(fields: [customerId], references: [id])
+    vendors     VendorWorkOrder[]
     
     @@index([id, nickName])
 }
@@ -55,8 +56,21 @@ model Vendor {
     country String
     phone String
     email String
+    workOrders   VendorWorkOrder[]
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 
     @@index([id])
+}
+
+model VendorWorkOrder {
+    id          Int       @id @default(autoincrement())
+    vendor      Vendor    @relation(fields: [vendorId], references: [id])
+    vendorId    Int
+    workOrder   WorkOrder @relation(fields: [workOrderId], references: [id])
+    workOrderId Int
+    assignedAt  DateTime  @default(now())
+    status      String    @default("ASSIGNED")
+    
+    @@unique([vendorId, workOrderId])
 }

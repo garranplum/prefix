@@ -1,55 +1,17 @@
-import Link from "next/link";
-import { api, HydrateClient } from "~/trpc/server";
-import styles from "./index.module.css";
+import {WorkOrderAssignments} from "~/components/WorkOrderAssignments"
 
-export default async function Home() {
-  const hello = await api.workOrder.hello({ text: "from tRPC" });
-  const workOrders = await api.workOrder.get();
-
-
+export default function Home()
+{
   return (
-    <HydrateClient>
-      <main className={styles.main}>
-        <div className={styles.container}>
-          <h1 className={styles.title}>
-            Create <span className={styles.pinkSpan}>T3</span> App
-          </h1>
-          <div className={styles.cardRow}>
-            <Link
-              className={styles.card}
-              href="https://create.t3.gg/en/usage/first-steps"
-              target="_blank"
-            >
-              <h3 className={styles.cardTitle}>First Steps →</h3>
-              <div className={styles.cardText}>
-                Just the basics - Everything you need to know to set up your
-                database and authentication.
-              </div>
-            </Link>
-            <Link
-              className={styles.card}
-              href="https://create.t3.gg/en/introduction"
-              target="_blank"
-            >
-              <h3 className={styles.cardTitle}>Documentation →</h3>
-              <div className={styles.cardText}>
-                Learn more about Create T3 App, the libraries it uses, and how
-                to deploy it.
-              </div>
-            </Link>
-          </div>
-          <div className={styles.showcaseContainer}>
-            <p className={styles.showcaseText}>
-              {hello ? hello.greeting : "Loading tRPC query..."}
-            </p>
-          </div>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
+      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
+        <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
+          Work Order Management
+        </h1>
+        <div className="w-full max-w-2xl bg-white text-black rounded-lg">
+          <WorkOrderAssignments />
         </div>
-        <div>
-          {workOrders.map((workOrder) => (
-            <div key={workOrder.id}>{workOrder.nickName}</div>
-          ))}
-        </div>
-      </main>
-    </HydrateClient>
-  );
+      </div>
+    </main>
+  )
 }

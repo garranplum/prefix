@@ -1,20 +1,28 @@
-import { z } from "zod";
+import {z} from "zod"
 
-import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
+import {createTRPCRouter, publicProcedure} from "../trpc"
 
 export const vendorRouter = createTRPCRouter({
+  getAll: publicProcedure.query(async ({ctx}) =>
+  {
+    return ctx.db.vendor.findMany()
+  }),
+
   hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
+    .input(z.object({text: z.string()}))
+    .query(({input}) =>
+    {
       return {
         greeting: `Hello ${input.text}`,
-      };
+      }
     }),
 
   create: publicProcedure
-    .input(z.object({ companyName: z.string().min(1), contactName: z.string().min(1), addressLine1: z.string().min(1), addressLine2: z.string().min(1), city: z.string().min(1), state: z.string().min(1), zip: z.string().min(1), country: z.string().min(1), phone: z.string().min(1), email: z.string().min(1) }))
-    .mutation(async ({ ctx, input }) => {
-      try {
+    .input(z.object({companyName: z.string().min(1), contactName: z.string().min(1), addressLine1: z.string().min(1), addressLine2: z.string().min(1), city: z.string().min(1), state: z.string().min(1), zip: z.string().min(1), country: z.string().min(1), phone: z.string().min(1), email: z.string().min(1)}))
+    .mutation(async ({ctx, input}) =>
+    {
+      try
+      {
         const vendor = await ctx.db.vendor.create({
           data: {
             companyName: input.companyName,
@@ -30,12 +38,13 @@ export const vendorRouter = createTRPCRouter({
             createdAt: new Date(),
             updatedAt: new Date(),
           },
-        });
+        })
 
-        return vendor;
-        
-      } catch (error: unknown) {
-        throw new Error(error instanceof Error ? error.message : "Failed to create vendor");
+        return vendor
+
+      } catch (error: unknown)
+      {
+        throw new Error(error instanceof Error ? error.message : "Failed to create vendor")
       }
     }),
-});
+})
